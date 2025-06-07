@@ -25,22 +25,20 @@ Using the **DESeq2** pipeline in R, we performed differential expression analysi
 ```bash
 CANCER-RNA-SEQ-ANALYSIS/
 │
-├── data/
-│   ├── data.csv
-│   └── labels.csv
-│
-├── plots/
+├── plots/                     # All generated plots
 │   ├── heatmap_expression.png
 │   ├── ma_plot.png
 │   ├── sample_distribution.png
 │   ├── silhouette_plot.png
 │   └── volcano_plot.png
 │
-├── Project V2.Rmd         # Main RMarkdown analysis file
-├── Project-V2.docx        # Rendered output (optional)
-├── index.html             # HTML output of analysis
-├── README.md              # This file
-└── LICENSE
+├── Notebook/                  # RMarkdown and Word version of the analysis
+│   ├── Project V2.Rmd
+│   └── Project V2.docx
+│
+├── index.html                 # HTML output of the analysis
+├── README.md                  # This file
+└── LICENSE                    # License file
 ```
 
 ---
