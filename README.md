@@ -25,6 +25,7 @@ Using the **DESeq2** pipeline in R, we performed differential expression analysi
 ```bash
 CANCER-RNA-SEQ-ANALYSIS/
 │
+├── src.R # Main code
 ├── plots/                     # All generated plots
 │   ├── heatmap_expression.png
 │   ├── ma_plot.png
@@ -34,8 +35,7 @@ CANCER-RNA-SEQ-ANALYSIS/
 │
 ├── Notebook/                  # RMarkdown and Word version of the analysis
 │   ├── Project V2.Rmd
-│   └── Project V2.docx
-│
+|
 ├── index.html                 # HTML output of the analysis
 ├── README.md                  # This file
 └── LICENSE                    # License file

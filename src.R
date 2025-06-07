@@ -35,13 +35,23 @@ gc()
 class_data <- as.data.frame(table(merged_data$Class))
 colnames(class_data) <- c("Cancer_Type", "Count")
 class_data$Count <- sort(class_data$Count, decreasing = TRUE)
+# Define consistent colors for cancer types
+cancer_colors <- c(
+  BRCA = "#E41A1C",
+  KIRC = "#377EB8",
+  LUAD = "#4DAF4A",
+  COAD = "#984EA3",
+  PRAD = "#FF7F00"
+)
 
 ggplot(class_data, aes(x = Cancer_Type, y = Count, fill = Cancer_Type)) +
   geom_bar(stat = "identity") +
-  theme_gray() +
+  theme_bw() +
   labs(title = "Distribution of Samples Across Cancer Types",
        x = "Cancer Type",
-       y = "Number of Samples")
+       y = "Number of Samples") +
+       scale_fill_manual(values = cancer_colors) +
+       theme_bw()
 ggsave("plots/sample_distribution.png", width = 8, height = 5)
 
 # Prepare DESeq2 inputs
@@ -100,7 +110,7 @@ ggplot(res, aes(x = log2FoldChange, y = -log10(padj))) +
   geom_hline(yintercept = -log10(0.05), linetype = "dashed", color = "blue") +
   labs(title = "Volcano Plot of Differentially Expressed Genes",
        x = "Log2 Fold Change", y = "-log10(Adjusted p-value)") +
-  theme_gray()
+  theme_bw()
 ggsave("plots/volcano_plot.png", width = 8, height = 6)
 
 # MA plot
@@ -110,7 +120,7 @@ ggplot(res, aes(x = baseMean, y = log2FoldChange)) +
   geom_hline(yintercept = 0, linetype = "dashed", color = "blue") +
   labs(title = "MA Plot of Differentially Expressed Genes",
        x = "Average Expression (baseMean)", y = "Log2 Fold Change") +
-  theme_gray()
+  theme_bw()
 ggsave("plots/ma_plot.png", width = 8, height = 6)
 
 # PCA
@@ -125,6 +135,7 @@ pca_scores$Class <- colData(dds)$Class
 ggplot(pca_scores, aes(x = PC1, y = PC2, color = Class)) +
   geom_point(size = 1.5) +
   labs(title = "PCA of Cancer Samples", x = "PC1", y = "PC2") +
+  scale_color_manual(values = cancer_colors) +
   theme_bw()
 
 # K-means clustering
@@ -149,10 +160,11 @@ heatmap_matrix <- assay(vst_data)[top_var_genes, ]
 
 annotation_col <- data.frame(CancerType = colData(dds)$Class)
 rownames(annotation_col) <- colnames(heatmap_matrix)
-
+ann_colors <- list(CancerType = cancer_colors)
 pheatmap(heatmap_matrix,
          scale = "row",
          annotation_col = annotation_col,
+         annotation_colors = ann_colors,
          show_rownames = FALSE,
          show_colnames = FALSE,
          main = "Heatmap of Top 50 Variable Genes",
